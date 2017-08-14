@@ -7,7 +7,7 @@
   "copyright": "© 2017, Max Godefroy",
   "main": "main.js",
   "license": "MIT",
-  "repository": "https://github.com/M_cgode/endless-sky-plugin-gui",
+  "repository": "https://github.com/Mcgode/EndlessSkyPluginGUI",
   "dependencies": {
     "jQuery": "latest"
   }
