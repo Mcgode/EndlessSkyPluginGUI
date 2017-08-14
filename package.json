@@ -1,7 +1,7 @@
 {
   "build": {
     "appId": "com.max.godefroy.endless-sky-plugin-gui",
-    "category": "buisness",
+    "category": "games",
     "win": {
       "target": [
         "nsis"

@@ -1,6 +1,6 @@
 {
   "name": "endless-sky-plugin-gui",
-  "productName": "Endless Sky Plugin GUI",
+  "productName": "EndlessSkyPluginGUI",
   "description": "Makes plugin creation easier for Endless Sky",
   "version": "0.0.1",
   "author": "Max Godefroy <max@godefroy.net>",
