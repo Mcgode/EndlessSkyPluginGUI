@@ -1,0 +1,14 @@
+{
+  "name": "endless-sky-plugin-gui",
+  "productName": "Endless Sky Plugin GUI",
+  "description": "Makes plugin creation easier for Endless Sky",
+  "version": "0.0.1",
+  "author": "Max Godefroy <max@godefroy.net>",
+  "copyright": "© 2017, Max Godefroy",
+  "main": "main.js",
+  "license": "MIT",
+  "repository": "https://github.com/M_cgode/endless-sky-plugin-gui",
+  "dependencies": {
+    "jQuery": "latest"
+  }
+}
