@@ -25,7 +25,7 @@ function getAppDataDir() {
             dot_named = true;
             break;
     }
-    const app_data_dir = `${appDataDir}/${dot_named ? '.endlessSkyPluginGUI' : 'Endless Sky Plugin GUI'}`;
+    const app_data_dir = `${appDataDir}/${dot_named ? '.endlessSkyPluginGUI' : 'EndlessSkyPluginGUI'}`;
     if (!fs.existsSync(app_data_dir)) {
         fs.mkdirSync(app_data_dir);
     }
@@ -44,4 +44,18 @@ exports.getProjects = () => {
 
     return fs.readdirSync(`${dir}/projects`);
 
+};
+
+
+exports.recoverLastSessionInfo = () => {
+    let filename = `${dir}/LastSession.json`;
+    if (!fs.existsSync(filename)) {
+        let info = {
+            "selected_project": undefined
+        };
+        fs.writeFileSync(filename, JSON.stringify(info));
+        return info
+    } else {
+        return JSON.parse(fs.readFileSync(filename))
+    }
 };
