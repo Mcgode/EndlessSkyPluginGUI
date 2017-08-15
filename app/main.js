@@ -24,7 +24,7 @@ function makeMainWindow()
         });
 
         main_window.once('ready-to-show', () => {
-            if (projects.length) {
+            if (Object.keys(projects).length) {
                 main_window.show()
             }
             main_window_ready_to_show = true;
@@ -55,7 +55,7 @@ function makeProjectWindow()
 
         project_window.once('ready-to-show', () => {
             projects_window_ready_to_show = true;
-            if (projects.length === 0) {
+            if (!Object.keys(projects).length) {
                 project_window.show()
             }
         });
