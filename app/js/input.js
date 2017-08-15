@@ -12,17 +12,18 @@ let current_info;
 
 
 ipcRenderer.on('set-mode', (_, return_channel, mode, info, force) => {
-    console.log('will set mode');
     current_info = info;
+    clear((force) ? 'Cancel' : null);
     switch (mode) {
+        case 'warning':
+            makeWarning();
+            break;
         case 'text':
-            clear((force) ? 'Cancel' : null);
             makeTextInput();
             break;
         default:
             break;
     }
-    console.log(`done-set-mode-${return_channel}`);
     ipcRenderer.send(`done-set-mode-${return_channel}`)
 });
 
@@ -53,8 +54,16 @@ function makeTextInput() {
         .attr('id', 'value')
 }
 
+function makeWarning() {
+    section.append('p')
+        .text(current_info.label)
+}
+
 function done(validate) {
-    let value = d3.select('#value').node().value;
+    let value = null;
+    if (d3.select('#value')) {
+        value = d3.select('#value').node().value;
+    }
     console.log(`Is done with ${validate}`);
     ipcRenderer.send(
         'return-value',
