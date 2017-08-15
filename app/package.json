@@ -9,6 +9,6 @@
   "license": "MIT",
   "repository": "https://github.com/Mcgode/EndlessSkyPluginGUI",
   "dependencies": {
-    "jQuery": "latest"
+    "d3": "latest"
   }
 }
