@@ -6,7 +6,7 @@ const electron = require('electron');
 const { app, BrowserWindow } = electron;
 const io = require('./io_module');
 
-let main_window, project_window;
+let main_window, project_window = null;
 let projects;
 let main_window_ready_to_show = false;
 let projects_window_ready_to_show = false;
@@ -14,7 +14,7 @@ let projects_window_ready_to_show = false;
 
 function makeMainWindow()
 {
-    if (main_window !== null)
+    if (main_window === null)
     {
         main_window = new BrowserWindow({
             width: 800,
@@ -41,12 +41,15 @@ function makeMainWindow()
 
 function makeProjectWindow()
 {
-    if (project_window !== null)
+    if (project_window === null)
     {
         project_window = new BrowserWindow({
             width: 400,
-            height: 100,
-            show: false
+            height: 80,
+            show: false,
+            resizable: false,
+            fullscreenable: false,
+            maximizable: false
         });
 
         project_window.once('ready-to-show', () => {
@@ -58,7 +61,10 @@ function makeProjectWindow()
 
         project_window.loadURL(`file://${__dirname}/pages/projects.html`);
 
-        project_window.once('close', () => { project_window = null; })
+        project_window.once('close', () => {
+            project_window = null;
+            app.quit()
+        })
     }
     else if (!projects.length)
     {
