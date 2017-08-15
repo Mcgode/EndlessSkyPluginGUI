@@ -5,7 +5,7 @@
 const electron = require('electron');
 const { app, ipcMain, Menu, MenuItem, BrowserWindow, dialog } = electron;
 
-let main_window;
+let main_window, project_window;
 
 
 app.once('ready', () => {
