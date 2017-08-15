@@ -4,6 +4,8 @@
 
 const io = require('../io_module');
 const d3 = require("d3");
+const electron = require('electron');
+const { ipcRenderer } = electron;
 
 let project_selection = d3.select('#project-selection');
 let select_project = d3.select('#select-this-project');
@@ -31,4 +33,20 @@ function updateSelection()
     }
 }
 
+function createProject() {
+    ipcRenderer.send('create-project');
+    ipcRenderer.once('create-project', (_, did_validate, value) => {
+        if (did_validate) {
+            io.makeProject(value);
+            ipcRenderer.send('update-projects');
+            ipcRenderer.send('set-current-project', value)
+        }
+    })
+}
+
 updateSelection();
+
+
+ipcRenderer.on('update-projects', () => {
+    updateSelection();
+});
