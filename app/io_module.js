@@ -37,14 +37,11 @@ const dir = getAppDataDir();
 
 // Returns the project list, stored as a list of directories
 exports.getProjects = () => {
-
     if (!fs.existsSync(`${dir}/projects`)) {
         fs.mkdirSync(`${dir}/projects`);
     }
-
     let potential_projects = fs.readdirSync(`${dir}/projects`);
     let projects = {};
-
     for (let potential_project of potential_projects) {
         let path = `${dir}/projects/${potential_project}`;
         if (fs.lstatSync(path).isDirectory()) {
@@ -53,9 +50,7 @@ exports.getProjects = () => {
             }
         }
     }
-
     return projects
-
 };
 
 
@@ -70,4 +65,18 @@ exports.recoverLastSessionInfo = () => {
     } else {
         return JSON.parse(fs.readFileSync(filename))
     }
+};
+
+
+exports.makeProject = (project_name) => {
+    let path = `${dir}/projects/${project_name}`;
+    if (fs.existsSync(path)) {
+        fs.unlinkSync(path);
+    }
+    fs.mkdirSync(path);
+    let info = {
+        project_name: project_name,
+        draw_data_from: [ "base", ]
+    };
+    fs.writeFileSync(`${path}/project.json`, JSON.stringify(info));
 };
