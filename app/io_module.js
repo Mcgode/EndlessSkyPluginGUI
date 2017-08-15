@@ -35,6 +35,7 @@ function getAppDataDir() {
 const dir = getAppDataDir();
 
 
+// Returns the project list, stored as a list of directories
 exports.getProjects = () => {
 
     if (!fs.existsSync(`${dir}/projects`)) {
