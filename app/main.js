@@ -4,12 +4,13 @@
 
 const electron = require('electron');
 const { app, ipcMain, Menu, MenuItem, BrowserWindow, dialog } = electron;
+const io = require('./io_module');
 
 let main_window, project_window;
+let projects;
 
 
-app.once('ready', () => {
-
+function makeMainWindow() {
     main_window = new BrowserWindow({
         width: 800,
         height: 600,
@@ -21,4 +22,22 @@ app.once('ready', () => {
     });
 
     main_window.loadURL(`file://${__dirname}/pages/main.html`)
+}
+
+function makeProjectWindow() {
+    project_window = new BrowserWindow({
+        width: 800,
+        height: 600,
+        show: false
+    });
+}
+
+// App events handling
+
+app.once('ready', () => {
+
+    projects = io.getProjects();
+
+    makeMainWindow();
+    makeProjectWindow();
 });

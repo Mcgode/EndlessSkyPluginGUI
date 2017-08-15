@@ -21,9 +21,22 @@ function getAppDataDir() {
             dot_named = true;
             break;
     }
-    const app_name = `${appDataDir}/${dot_named ? '.bookIncomeManager' : 'Book Income Manager'}`;
-    if (!fs.existsSync(app_name)) {
-        fs.mkdirSync(app_name);
+    const app_data_dir = `${appDataDir}/${dot_named ? '.endlessSkyPluginGUI' : 'Endless Sky Plugin GUI'}`;
+    if (!fs.existsSync(app_data_dir)) {
+        fs.mkdirSync(app_data_dir);
     }
-    return app_name
+    return app_data_dir
 }
+
+const dir = getAppDataDir();
+
+
+exports.getProjects = () => {
+
+    if (!fs.existsSync(`${dir}/projects`)) {
+        fs.mkdirSync(`${dir}/projects`);
+    }
+
+    return fs.readdirSync(`${dir}/projects`);
+
+};
