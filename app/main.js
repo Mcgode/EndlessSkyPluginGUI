@@ -3,7 +3,7 @@
  */
 
 const electron = require('electron');
-const { app, ipcMain, Menu, MenuItem, BrowserWindow, dialog } = electron;
+const { app, BrowserWindow } = electron;
 const io = require('./io_module');
 
 let main_window, project_window;

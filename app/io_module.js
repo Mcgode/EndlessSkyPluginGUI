@@ -14,7 +14,11 @@ function getAppDataDir() {
             appDataDir = os.homedir() + '/Library/Application Support';
             break;
         case "win32":
-            appDataDir = process.env.APPDATA;
+            if (os.arch() === 'x64') {
+                appDataDir = "C:\\Program Files (x86)";
+            } else {
+                appDataDir = "C:\\Program Files";
+            }
             break;
         default:
             appDataDir = os.homedir();
