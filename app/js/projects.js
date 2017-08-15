@@ -14,11 +14,13 @@ let delete_project = d3.select('#delete-this-project');
 function updateSelection()
 {
     let projects = io.getProjects();
+    let project_list = Object.keys(projects);
+    project_list.sort();
 
     project_selection.node().innerHTML = '';
 
-    if (Object.keys(projects).length) {
-        Object.keys(projects).forEach((project) => {
+    if (project_list.length) {
+        project_list.forEach((project) => {
             project_selection.append('option')
                 .text(project)
                 .attr('value', project)
@@ -40,6 +42,18 @@ function createProject() {
             io.makeProject(value);
             ipcRenderer.send('update-projects');
             ipcRenderer.send('set-current-project', value)
+        }
+    })
+}
+
+function deleteProject() {
+    let value = project_selection.node().value;
+    ipcRenderer.send('delete-project');
+    ipcRenderer.once('delete-project', (_, will_delete) => {
+        if (will_delete) {
+            console.log(value);
+            io.deleteProject(value);
+            ipcRenderer.send('update-projects');
         }
     })
 }

@@ -142,6 +142,19 @@ ipcMain.on('create-project', () => {
     makeProjectInputWindow('text', { label: 'project name', channel: 'create-project', window_group: "projects" });
 });
 
+ipcMain.on('delete-project', () => {
+    makeProjectInputWindow(
+        'warning',
+        {
+            label: 'Are you sure you want to delete that project?',
+            channel: 'delete-project',
+            window_group: "projects",
+            cancel: "No",
+            ok: "Yes"
+        }
+    );
+});
+
 ipcMain.on('return-value', (_, window_group, channel_name, did_validate, value) => {
     console.log(window_group);
     switch(window_group) {

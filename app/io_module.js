@@ -83,3 +83,20 @@ exports.makeProject = (project_name) => {
     };
     fs.writeFileSync(`${path}/project.json`, JSON.stringify(info));
 };
+
+function delete_recursive(path) {
+    if (fs.lstatSync(path).isDirectory()) {
+        for (let e of fs.readdirSync(path)) {
+            delete_recursive(`${path}/${e}`)
+        }
+        fs.rmdirSync(path);
+    } else {
+        fs.unlinkSync(path)
+    }
+}
+
+exports.deleteProject = (project_name) => {
+    if (fs.existsSync(`${dir}/projects/${project_name}`)) {
+        delete_recursive(`${dir}/projects/${project_name}`);
+    }
+};

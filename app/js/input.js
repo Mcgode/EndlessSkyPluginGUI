@@ -3,8 +3,7 @@
  */
 
 const electron = require('electron');
-const { ipcRenderer, remote } = electron;
-const { BrowserWindow } = remote;
+const { ipcRenderer } = electron;
 const d3 = require('d3');
 
 let section = d3.select('#input-section');
@@ -13,12 +12,13 @@ let current_info;
 
 ipcRenderer.on('set-mode', (_, return_channel, mode, info, force) => {
     current_info = info;
-    clear((force) ? 'Cancel' : null);
     switch (mode) {
         case 'warning':
+            clear(info.cancel, info.ok);
             makeWarning();
             break;
         case 'text':
+            clear((force) ? 'Cancel' : null);
             makeTextInput();
             break;
         default:
@@ -61,7 +61,7 @@ function makeWarning() {
 
 function done(validate) {
     let value = null;
-    if (d3.select('#value')) {
+    if (d3.select('#value').node()) {
         value = d3.select('#value').node().value;
     }
     console.log(`Is done with ${validate}`);
