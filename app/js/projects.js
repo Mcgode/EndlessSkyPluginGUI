@@ -15,8 +15,8 @@ function updateSelection()
 
     project_selection.node().innerHTML = '';
 
-    if (projects.length) {
-        projects.forEach((project) => {
+    if (Object.keys(projects).length) {
+        Object.keys(projects).forEach((project) => {
             project_selection.append('option')
                 .text(project)
                 .attr('value', project)

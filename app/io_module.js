@@ -42,7 +42,19 @@ exports.getProjects = () => {
         fs.mkdirSync(`${dir}/projects`);
     }
 
-    return fs.readdirSync(`${dir}/projects`);
+    let potential_projects = fs.readdirSync(`${dir}/projects`);
+    let projects = {};
+
+    for (let potential_project of potential_projects) {
+        let path = `${dir}/projects/${potential_project}`;
+        if (fs.lstatSync(path).isDirectory()) {
+            if ('project.json'  in fs.readdirSync(path)) {
+                projects[potential_project] = JSON.parse(fs.readFileSync(`${path}/project.json`));
+            }
+        }
+    }
+
+    return projects
 
 };
 
