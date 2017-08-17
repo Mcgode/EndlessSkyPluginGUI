@@ -108,6 +108,13 @@ function makeProjectInputWindow(mode, info, force) {
     }
 }
 
+function recoverAllData(project) {
+    let files = io.getAllData(project);
+    let parsed_data = [];
+    for (let file of files) { parsed_data.push(parser.parse(file.split('\n'))) }
+    projects[project].data = [].concat.apply([], parsed_data);
+}
+
 
 // App events handling
 
@@ -115,6 +122,8 @@ app.once('ready', () => {
 
     projects = io.getProjects();
     session = io.recoverLastSessionInfo();
+
+    for (let project of Object.keys(projects)) { recoverAllData(project); }
 
     makeMainWindow();
     makeProjectWindow();
@@ -182,7 +191,3 @@ ipcMain.on('update-projects', () => {
         window.webContents.send('update-projects')
     }
 });
-
-console.log(io.getData('kaynz', "kaynz outfits"));
-console.log("\n----------\n");
-console.log(parser.parse(io.getData('kaynz', 'kaynz outfits').split('\n')));

@@ -108,8 +108,19 @@ exports.deleteProject = (project_name) => {
 };
 
 
-exports.getData = (project, name) => {
-    let path = `${dir}/projects/${project}/data/${name}.txt`;
+function getData(project, name) {
+    let path = `${dir}/projects/${project}/data/${name}`;
     if (fs.existsSync(path)) return fs.readFileSync(path, 'utf-8');
     return '';
+}
+
+exports.getAllData = (project) => {
+    if (fs.existsSync(`${dir}/projects/${project}/data`)) {
+        let files = [];
+        for (let file of fs.readdirSync(`${dir}/projects/${project}/data`)) {
+            files.push(getData(project, file))
+        }
+        return files;
+    }
+    return [];
 };

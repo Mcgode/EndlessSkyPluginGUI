@@ -82,10 +82,8 @@ function parse(lines, inside_data) {
     let index = 0, data = initData(inside_data);
     while (index < lines.length) {
         let line = lines[index];
-        console.log(line);
         if (line.length && line[0] !== ' ' && line[0] !== '\t') {
             let splits = cleanSplits(line);
-            console.log(splits);
             let header = splits[0], parameters = splits.slice(1);
             switch (header) {
                 default:
