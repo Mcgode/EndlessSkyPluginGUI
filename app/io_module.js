@@ -106,3 +106,10 @@ exports.deleteProject = (project_name) => {
         delete_recursive(`${dir}/projects/${project_name}`);
     }
 };
+
+
+exports.getData = (project, name) => {
+    let path = `${dir}/projects/${project}/data/${name}.txt`;
+    if (fs.existsSync(path)) return fs.readFileSync(path, 'utf-8');
+    return '';
+};

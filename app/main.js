@@ -5,6 +5,7 @@
 const electron = require('electron');
 const { app, BrowserWindow, ipcMain } = electron;
 const io = require('./io_module');
+const parser = require('./data_parser');
 
 let main_window, project_window;
 let project_input_window;
@@ -181,3 +182,7 @@ ipcMain.on('update-projects', () => {
         window.webContents.send('update-projects')
     }
 });
+
+console.log(io.getData('kaynz', "kaynz outfits"));
+console.log("\n----------\n");
+console.log(parser.parse(io.getData('kaynz', 'kaynz outfits').split('\n')));
