@@ -71,6 +71,12 @@ exports.recoverLastSessionInfo = () => {
 };
 
 
+exports.saveSession = (session) => {
+    let filename = `${dir}/LastSession.json`;
+    fs.writeFileSync(filename, JSON.stringify(session));
+};
+
+
 exports.makeProject = (project_name) => {
     let path = `${dir}/projects/${project_name}`;
     if (fs.existsSync(path)) {

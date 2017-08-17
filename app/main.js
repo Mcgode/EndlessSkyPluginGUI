@@ -14,7 +14,7 @@ let main_window_ready_to_show = false;
 let projects_window_ready_to_show = false;
 
 
-function makeMainWindow()
+function makeMainWindow(prevent_open_on_app_launch)
 {
     if (main_window == null)
     {
@@ -25,7 +25,7 @@ function makeMainWindow()
         });
 
         main_window.once('ready-to-show', () => {
-            if (Object.keys(projects).length && session.selected_project) {
+            if (Object.keys(projects).length && session.selected_project && !prevent_open_on_app_launch) {
                 main_window.show()
             }
             main_window_ready_to_show = true;
@@ -86,6 +86,7 @@ function makeProjectInputWindow(mode, info, force) {
             parent: project_window,
             modal: true,
             show: false,
+            resizable: false
         });
 
         project_input_window.once('ready-to-show', () => {
@@ -127,8 +128,13 @@ app.on('window-all-closed', () => {
 app.on('before-quit', () => {
     BrowserWindow.getAllWindows().forEach(window => {
         window.setClosable(true);
-        window.removeAllListeners('close');
+        if (window.isModal() && window.isVisible()) {
+            window.close()
+        } else {
+            window.removeAllListeners('close');
+        }
     });
+    io.saveSession(session);
 });
 
 app.on('activate', () => {
