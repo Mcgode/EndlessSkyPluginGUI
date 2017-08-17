@@ -20,6 +20,13 @@ exports.addMethods = (data) => {
                     }
                 }
                 break;
+            case 'variant':
+                for (let e of data) {
+                    if (e.header === 'ship' && e.parameters.length === 2) {
+                        elements.push(e)
+                    }
+                }
+                break;
             case 'engine':
                 for (let e of data) {
                     if (e.header === 'outfit' && isInCategory(e, engine)) {
