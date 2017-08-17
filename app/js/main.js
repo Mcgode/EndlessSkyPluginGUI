@@ -8,7 +8,17 @@ const d3 = require('d3');
 const html_utils = require('../html_utils');
 const data_interaction = require('../data_interactions');
 
-const categories = [ 'ship', 'outfit', 'weapon', 'engine', 'shipyard', 'outfitter', 'planet' ];
+const categories = [
+    'ship', 'variant',
+    'outfit', 'weapon', 'engine', 'projectile',
+    'shipyard', 'outfitter',
+    'planet', 'system',
+    'event',
+    'fleet',
+    'government',
+    'mission',
+    'effect'
+];
 const category_select = d3.select('#category-select');
 const element_select = d3.select('#element-select');
 const element_data_div = d3.select('#element-data-div');

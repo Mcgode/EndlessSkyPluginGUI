@@ -4,8 +4,8 @@
 
 
 const engine = ['Engines'];
-const weapon = ['Guns', 'Turrets', 'Ammo'];
-const outfit = ['Systems', 'Power'];
+const weapon = ['Guns', 'Turrets', 'Ammunition'];
+const outfit = ['Systems', 'Power', 'Special'];
 
 
 exports.addMethods = (data) => {
@@ -22,21 +22,28 @@ exports.addMethods = (data) => {
                 break;
             case 'engine':
                 for (let e of data) {
-                    if (e.header === 'outfit' && isIn(e.content.category.parameters[0], engine)) {
+                    if (e.header === 'outfit' && isInCategory(e, engine)) {
                         elements.push(e)
                     }
                 }
                 break;
             case 'weapon':
                 for (let e of data) {
-                    if (e.header === 'outfit' && isIn(e.content.category.parameters[0], weapon)) {
+                    if (e.header === 'outfit' && isInCategory(e, weapon)) {
                         elements.push(e)
                     }
                 }
                 break;
             case 'outfit':
                 for (let e of data) {
-                    if (e.header === 'outfit' && isIn(e.content.category.parameters[0], outfit)) {
+                    if (e.header === 'outfit' && isInCategory(e, outfit)) {
+                        elements.push(e)
+                    }
+                }
+                break;
+            case 'projectile':
+                for (let e of data) {
+                    if (e.header === 'outfit' && e.content.category == null) {
                         elements.push(e)
                     }
                 }
@@ -107,6 +114,9 @@ function repeat(i) {
     return str
 }
 
-function isIn(obj, array) {
-    return array.indexOf(obj) > -1;
+function isInCategory(obj, array) {
+    if (obj.content.category != null) {
+        return array.indexOf(obj.content.category.parameters[0]) > -1;
+    }
+    return false;
 }
