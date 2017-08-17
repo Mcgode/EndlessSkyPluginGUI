@@ -3,6 +3,11 @@
  */
 
 
+const engine = ['Engines'];
+const weapon = ['Guns', 'Turrets', 'Ammo'];
+const outfit = ['Systems', 'Power'];
+
+
 exports.addMethods = (data) => {
 
     data.select = (category) => {
@@ -11,6 +16,27 @@ exports.addMethods = (data) => {
             case 'ship':
                 for (let e of data) {
                     if (e.header === category && e.parameters.length < 2) {
+                        elements.push(e)
+                    }
+                }
+                break;
+            case 'engine':
+                for (let e of data) {
+                    if (e.header === 'outfit' && isIn(e.content.category.parameters[0], engine)) {
+                        elements.push(e)
+                    }
+                }
+                break;
+            case 'weapon':
+                for (let e of data) {
+                    if (e.header === 'outfit' && isIn(e.content.category.parameters[0], weapon)) {
+                        elements.push(e)
+                    }
+                }
+                break;
+            case 'outfit':
+                for (let e of data) {
+                    if (e.header === 'outfit' && isIn(e.content.category.parameters[0], outfit)) {
                         elements.push(e)
                     }
                 }
@@ -65,7 +91,7 @@ exports.addMethods = (data) => {
             } else {
                 string = repeat(indent) + prefix + `${obj}`;
             }
-            console.log(`------\n${indent} (${typeof obj}):\n${string}`);
+            //console.log(`------\n${indent} (${typeof obj}):\n${string}`);
             return string;
         }
         return print(data.get(category, element), 0);
@@ -79,4 +105,8 @@ function repeat(i) {
         str += '\t'
     }
     return str
+}
+
+function isIn(obj, array) {
+    return array.indexOf(obj) > -1;
 }
