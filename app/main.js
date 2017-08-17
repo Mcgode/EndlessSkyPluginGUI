@@ -46,7 +46,7 @@ function makeProjectWindow()
     if (project_window == null)
     {
         project_window = new BrowserWindow({
-            width: 800,
+            width: 400,
             height: 80,
             show: false,
             resizable: true,
@@ -81,8 +81,8 @@ function makeProjectWindow()
 function makeProjectInputWindow(mode, info, force) {
     if (project_input_window == null && project_window != null) {
         project_input_window = new BrowserWindow({
-            width: 780,
-            height: 700,
+            width: 350,
+            height: 100,
             parent: project_window,
             modal: true,
             show: false,
@@ -102,7 +102,6 @@ function makeProjectInputWindow(mode, info, force) {
         });
     } else if (project_window && mode) {
         project_input_window.webContents.send('set-mode', 'projects', mode, info, force);
-        project_input_window.show();
         ipcMain.once('done-set-mode-projects', () => { project_input_window.show() });
     }
 }
@@ -139,7 +138,12 @@ app.on('activate', () => {
 
 
 ipcMain.on('create-project', () => {
-    makeProjectInputWindow('text', { label: 'project name', channel: 'create-project', window_group: "projects" });
+    makeProjectInputWindow('text', {
+        label: 'project name',
+        channel: 'create-project',
+        window_group: "projects",
+        forbidden_entries: Object.keys(projects)
+    });
 });
 
 ipcMain.on('delete-project', () => {

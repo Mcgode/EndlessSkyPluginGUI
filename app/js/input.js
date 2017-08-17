@@ -5,9 +5,11 @@
 const electron = require('electron');
 const { ipcRenderer } = electron;
 const d3 = require('d3');
+const html_utils = require('../html_utils');
 
 let section = d3.select('#input-section');
 let current_info;
+let ok_button = d3.select("#ok");
 
 
 ipcRenderer.on('set-mode', (_, return_channel, mode, info, force) => {
@@ -18,7 +20,7 @@ ipcRenderer.on('set-mode', (_, return_channel, mode, info, force) => {
             makeWarning();
             break;
         case 'text':
-            clear((force) ? 'Cancel' : null);
+            clear((!force) ? 'Cancel' : null);
             makeTextInput();
             break;
         default:
@@ -30,11 +32,11 @@ ipcRenderer.on('set-mode', (_, return_channel, mode, info, force) => {
 
 function clear(cancel_text, ok_text) {
     section.node().innerHTML = '';
-    let cancel_button = d3.select('#cancel'), ok_button = d3.select('#ok');
+    let cancel_button = d3.select('#cancel');
     if (cancel_text == null) {
-        cancel_button.node().disable = true;
+        cancel_button.node().disabled = true;
     } else {
-        cancel_button.node().disable = false;
+        cancel_button.node().disabled = false;
         cancel_button.text(cancel_text)
     }
     if (ok_text) {
@@ -49,9 +51,33 @@ function makeTextInput() {
     section.append('p')
         .text(label)
         .attr('class', 'label');
-    section.append('input')
+    let input = section.append('input')
         .attr('type', 'text')
-        .attr('id', 'value')
+        .attr('id', 'value');
+
+    let warning_label = section.append('p')
+        .attr('class', 'warning-label');
+    let blacklist = [];
+    if (current_info.forbidden_entries) blacklist = current_info.forbidden_entries;
+    blacklist.push('');
+    html_utils.checkTextInputValueInBlacklist(
+        'value',
+        blacklist,
+        (value) => {
+            setOk(false);
+            if (value) {
+                warning_label.text(`The name "${value}" is already in use`)
+            } else {
+                warning_label.text('')
+            }
+        },
+        () => { setOk(true); warning_label.text('') }
+    );
+    setOk(false);
+}
+
+function setOk(status) {
+    ok_button.node().disabled = !status;
 }
 
 function makeWarning() {

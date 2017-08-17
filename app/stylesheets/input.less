@@ -1,11 +1,62 @@
-html, body {
+html {
   width: 100%;
   margin: 0;
   height: 100%;
 }
 
 body {
+  width: 100%;
+  margin: 0;
+  height: 100%;
   text-align: center;
   overflow-y: scroll;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#validation-section {
+  height: 1.6em;
+  display: flex;
+  flex-direction: row;
+}
+
+#input-section {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.ok-div {
+  flex-grow: 1;
+  text-align: end;
+  padding: .2em;
+}
+
+.cancel-div {
+  width: 50%;
+  text-align: start;
+  padding: .2em;
+}
+
+#ok {
+  margin: 0;
+}
+
+#cancel {
+  margin: 0;
+}
+
+.label {
+  margin-right: .3em;
+  display: inline-block;
+  font-size: .95em;
+  margin-bottom: 0;
+  margin-top: .7em;
+}
+
+.warning-label {
+  margin: .2em;
+  display: inline-block;
+  font-size: .8em;
+  color: red;
 }
