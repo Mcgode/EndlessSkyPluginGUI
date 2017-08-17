@@ -85,7 +85,7 @@ exports.makeProject = (project_name) => {
 };
 
 function delete_recursive(path) {
-    if (fs.lstatSync(path).isDirectory()) {
+    if (fs.lstatSync(path).isDirectory() && !fs.lstatSync(path).isSymbolicLink()) {
         for (let e of fs.readdirSync(path)) {
             delete_recursive(`${path}/${e}`)
         }
