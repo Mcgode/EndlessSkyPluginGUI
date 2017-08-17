@@ -197,3 +197,8 @@ exports.resetStyle = (ids, style) => {
     console.log('Styles reset')
 };
 
+
+exports.empty = (d3_object) => {
+    d3_object.node().innerHTML = '';
+};
+

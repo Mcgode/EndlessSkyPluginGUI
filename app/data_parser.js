@@ -30,7 +30,7 @@ function getString(string) {
 }
 
 
-function cleanSplits(string) {
+function getSplits(string) {
     let splits = [];
     let current_word = '';
     let parenthesis = null;
@@ -60,6 +60,18 @@ function cleanSplits(string) {
 }
 
 
+function clearSplits(splits) {
+    let i = 0;
+    while (i < splits.length) {
+        if (splits[i] === '') {
+            splits.splice(i, 1);
+        } else {
+            i++;
+        }
+    }
+}
+
+
 function initData(inside_data) {
     if (inside_data) return {};
     return [];
@@ -83,7 +95,8 @@ function parse(lines, inside_data) {
     while (index < lines.length) {
         let line = lines[index];
         if (line.length && line[0] !== ' ' && line[0] !== '\t') {
-            let splits = cleanSplits(line);
+            let splits = getSplits(line);
+            clearSplits(splits);
             let header = splits[0], parameters = splits.slice(1);
             switch (header) {
                 default:

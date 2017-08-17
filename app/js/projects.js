@@ -48,14 +48,19 @@ function createProject() {
 
 function deleteProject() {
     let value = project_selection.node().value;
-    ipcRenderer.send('delete-project');
     ipcRenderer.once('delete-project', (_, will_delete) => {
         if (will_delete) {
             console.log(value);
             io.deleteProject(value);
             ipcRenderer.send('update-projects');
         }
-    })
+    });
+    ipcRenderer.send('delete-project');
+}
+
+function selectProject() {
+    let value = project_selection.node().value;
+    ipcRenderer.send('set-current-project', value);
 }
 
 updateSelection();

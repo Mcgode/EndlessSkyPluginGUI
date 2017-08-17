@@ -27,18 +27,18 @@ function makeMainWindow(prevent_open_on_app_launch)
 
         main_window.once('ready-to-show', () => {
             if (Object.keys(projects).length && session.selected_project && !prevent_open_on_app_launch) {
-                main_window.show()
+                showMainWindow()
             }
             main_window_ready_to_show = true;
         });
 
         main_window.loadURL(`file://${__dirname}/pages/main.html`);
 
-        main_window.once('close', () => { main_window = null; })
+        main_window.once('close', () => { main_window = null; session.selected_project = null; project_window.show() })
     }
     else if (Object.keys(projects).length && session.selected_project)
     {
-        main_window.show()
+        showMainWindow()
     }
 }
 
@@ -113,6 +113,14 @@ function recoverAllData(project) {
     let parsed_data = [];
     for (let file of files) { parsed_data.push(parser.parse(file.split('\n'))) }
     projects[project].data = [].concat.apply([], parsed_data);
+}
+
+function showMainWindow() {
+    ipcMain.once('main-good-to-go', () => {
+        main_window.show();
+    });
+    main_window.webContents.send('collect-data', projects[session.selected_project].data);
+    main_window.show();
 }
 
 
@@ -190,4 +198,10 @@ ipcMain.on('update-projects', () => {
     for (let window of BrowserWindow.getAllWindows()) {
         window.webContents.send('update-projects')
     }
+});
+
+ipcMain.on('set-current-project', (_, project) => {
+    session.selected_project = project;
+    showMainWindow();
+    project_window.hide();
 });
