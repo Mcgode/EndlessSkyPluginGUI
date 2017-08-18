@@ -56,7 +56,9 @@ function drawElements(category) {
 
 function drawElementData(category, element) {
     html_utils.empty(element_data_div);
-    element_data_div.text(game_data.print(category, element));
+    let text = game_data.print(category, element);
+    element_data_div.append('p').node().innerText = text.replace(/\t/g, '    ');
+    console.log(text);
 }
 
 
@@ -64,7 +66,7 @@ ipcRenderer.on('collect-data', (_, data) => {
     game_data = data;
     data_interaction.addMethods(game_data);
     drawCategories();
-    ipcRenderer.send('main-window-good-to-go');
+    ipcRenderer.send('main-good-to-go');
 });
 
 category_select.on('change', (e) => {

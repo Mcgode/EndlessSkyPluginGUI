@@ -103,8 +103,8 @@ function makeProjectInputWindow(mode, info, force) {
             project_input_window = null;
         });
     } else if (project_window && mode) {
-        project_input_window.webContents.send('set-mode', 'projects', mode, info, force);
         ipcMain.once('done-set-mode-projects', () => { project_input_window.show() });
+        project_input_window.webContents.send('set-mode', 'projects', mode, info, force);
     }
 }
 
@@ -120,7 +120,6 @@ function showMainWindow() {
         main_window.show();
     });
     main_window.webContents.send('collect-data', projects[session.selected_project].data);
-    main_window.show();
 }
 
 
@@ -202,6 +201,6 @@ ipcMain.on('update-projects', () => {
 
 ipcMain.on('set-current-project', (_, project) => {
     session.selected_project = project;
-    showMainWindow();
+    makeMainWindow();
     project_window.hide();
 });

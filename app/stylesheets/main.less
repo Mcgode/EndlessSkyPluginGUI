@@ -1,0 +1,52 @@
+html {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#select-div {
+  min-height: 90px;
+  max-height: 95px;
+  display: flex;
+  flex-direction: row;
+  padding: .8em;
+  border-bottom: #aaaaaa groove 1px;
+}
+
+#category-div {
+  text-align: start;
+  width: 40%;
+}
+
+#elements-div {
+  width: 40%;
+  text-align: end;
+}
+
+#element-data-div {
+  flex-grow: 1;
+  padding: .3em;
+  font-size: .8em;
+  overflow: scroll;
+}
+
+.filler {
+  flex-grow: 2;
+}
+
+select {
+  width: 100%;
+}
+
+#element-data-div p {
+  display: inline-block;
+  margin: .3em;
+  white-space: pre;
+}
+
