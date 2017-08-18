@@ -84,8 +84,18 @@ function inputData(data, header, parameters, content) {
         if (content) data_piece.content = content;
         data.push(data_piece)
     } else {
-        data[header] = { parameters: parameters };
-        if (content) data[header].content = content;
+        if (data[header] != null) {
+            if (!(data[header] instanceof Array)) {
+                let obj = data[header];
+                data[header] = [obj];
+            }
+            let data_piece = { parameters: parameters };
+            if (content) data_piece.content = content;
+            data[header].push(data_piece);
+        } else {
+            data[header] = { parameters: parameters };
+            if (content) data[header].content = content;
+        }
     }
 }
 
@@ -98,17 +108,13 @@ function parse(lines, inside_data) {
             let splits = getSplits(line);
             clearSplits(splits);
             let header = splits[0], parameters = splits.slice(1);
-            switch (header) {
-                default:
-                    if (index + 1 < lines.length && hasIndentation(lines[index + 1])) {
-                        let content = getIndentedSection(lines, index);
-                        inputData(data, header, parameters, parse(content, true));
-                        index += content.length + 1;
-                    } else {
-                        inputData(data, header, parameters);
-                        index++;
-                    }
-                    break;
+            if (index + 1 < lines.length && hasIndentation(lines[index + 1])) {
+                let content = getIndentedSection(lines, index);
+                inputData(data, header, parameters, parse(content, true));
+                index += content.length + 1;
+            } else {
+                inputData(data, header, parameters);
+                index++;
             }
         } else {
             index++;

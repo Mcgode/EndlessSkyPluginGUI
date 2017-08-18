@@ -120,6 +120,7 @@ function showMainWindow() {
         main_window.show();
     });
     main_window.webContents.send('collect-data', projects[session.selected_project].data);
+    main_window.show();
 }
 
 

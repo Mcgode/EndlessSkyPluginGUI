@@ -64,6 +64,7 @@ function drawElementData(category, element) {
 
 ipcRenderer.on('collect-data', (_, data) => {
     game_data = data;
+    console.log(data);
     data_interaction.addMethods(game_data);
     drawCategories();
     ipcRenderer.send('main-good-to-go');
